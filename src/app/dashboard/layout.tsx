@@ -5,8 +5,8 @@ import { Sidebar } from "@/components/dashboard/Sidebar";
 import { Header } from "@/components/dashboard/Header";
 
 export const metadata: Metadata = {
-  title: "Share Wheel",
-  description: "Save Money, Save Environment, Build Connections",
+  title: "InvoWise",
+  description: "Create Professional, Invoices Instantly",
 };
 
 export default async function DashboardLayout({

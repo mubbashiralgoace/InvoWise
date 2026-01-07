@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FormEvent, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useMemo, useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { useUserStore } from "@/store/useUserStore";
@@ -11,11 +11,26 @@ import { Separator } from "@/components/ui/separator";
 
 export default function SignInForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const setUser = useUserStore((s) => s.setUser);
+
+  // Check for error params and show message
+  useEffect(() => {
+    const error = searchParams.get("error");
+    if (error === "session_expired" || error === "session_error") {
+      toast({
+        variant: "destructive",
+        title: "Session Expired",
+        description: "Your session has expired. Please sign in again.",
+      });
+      // Clear URL params
+      router.replace("/auth/signin");
+    }
+  }, [searchParams, toast, router]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -158,6 +173,15 @@ export default function SignInForm() {
           Create an account
         </Link>
       </p>
+
+      {(searchParams.get("error") === "session_expired" || searchParams.get("error") === "session_error") && (
+        <div className="rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-3 text-sm text-yellow-200">
+          <p className="font-medium">Session Issue Detected</p>
+          <p className="mt-1 text-xs text-yellow-300/80">
+            If you continue to experience issues, please clear your browser cookies and try again.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

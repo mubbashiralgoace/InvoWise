@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Route, Car, Users, Calculator, Calendar, Settings, LogOut, User } from "lucide-react";
+import { LayoutDashboard, FileText, Users, Plus, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,8 +12,6 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
-import { Crown } from "lucide-react";
-
 const navItems = [
   {
     href: "/dashboard",
@@ -21,49 +19,19 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
-    href: "/dashboard/profile",
-    label: "Profile",
-    icon: User,
+    href: "/dashboard/invoices",
+    label: "Invoices",
+    icon: FileText,
   },
   {
-    href: "/dashboard/subscription",
-    label: "Subscription",
-    icon: Crown,
+    href: "/dashboard/invoices/new",
+    label: "Create Invoice",
+    icon: Plus,
   },
   {
-    href: "/dashboard/find-routes",
-    label: "Find Routes",
-    icon: Route,
-  },
-  {
-    href: "/dashboard/create-pool",
-    label: "Create Pool",
-    icon: Car,
-  },
-  {
-    href: "/dashboard/my-pools",
-    label: "My Pools",
+    href: "/dashboard/clients",
+    label: "Clients",
     icon: Users,
-  },
-  {
-    href: "/dashboard/join-requests",
-    label: "Route Requests",
-    icon: Users,
-  },
-  {
-    href: "/dashboard/calculator",
-    label: "Cost Calculator",
-    icon: Calculator,
-  },
-  {
-    href: "/dashboard/schedule",
-    label: "Schedule",
-    icon: Calendar,
-  },
-  {
-    href: "/dashboard/settings",
-    label: "Settings",
-    icon: Settings,
   },
 ];
 
@@ -96,7 +64,7 @@ export function Sidebar() {
   return (
     <aside className="hidden w-64 flex-col border-r bg-background md:flex">
       <div className="flex h-16 items-center px-6">
-      <h1 className="mt-3 text-3xl font-semibold text-black">Share Wheel</h1>
+      <h1 className="mt-3 text-3xl font-semibold text-black">InvoWise</h1>
       </div>
 
       <ScrollArea className="flex-1">
